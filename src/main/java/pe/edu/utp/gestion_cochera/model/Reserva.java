@@ -2,6 +2,7 @@ package pe.edu.utp.gestion_cochera.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import pe.edu.utp.gestion_cochera.enums.EstadoReserva;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -27,7 +28,8 @@ public class Reserva {
     private LocalTime horaInicio;
     private LocalTime horaFin;
 
-    private String estado; // Pendiente, Confirmada, Cancelada
+    @Enumerated(EnumType.STRING)
+    private EstadoReserva estado;
 
     @OneToOne(mappedBy = "reserva", cascade = CascadeType.ALL)
     private Pago pago;

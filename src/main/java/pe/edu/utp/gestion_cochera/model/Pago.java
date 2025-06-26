@@ -2,6 +2,7 @@ package pe.edu.utp.gestion_cochera.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import pe.edu.utp.gestion_cochera.enums.EstadoPago;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,7 +20,9 @@ public class Pago {
     private Reserva reserva;
 
     private BigDecimal monto;
-    private String metodoPago; // Puede ser: Efectivo, Tarjeta, Yape, etc.
+    private String metodoPago;
     private LocalDateTime fechaPago;
-    private String estado; // Puede ser: Pagado, Pendiente, Fallido
+
+    @Enumerated(EnumType.STRING)
+    private EstadoPago estado;
 }
