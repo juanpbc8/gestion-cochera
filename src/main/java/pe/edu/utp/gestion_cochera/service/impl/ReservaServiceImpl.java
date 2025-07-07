@@ -3,6 +3,7 @@ package pe.edu.utp.gestion_cochera.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.gestion_cochera.enums.EstadoReserva;
+import pe.edu.utp.gestion_cochera.model.Cliente;
 import pe.edu.utp.gestion_cochera.model.Reserva;
 import pe.edu.utp.gestion_cochera.repository.ReservaRepository;
 import pe.edu.utp.gestion_cochera.service.ReservaService;
@@ -71,5 +72,10 @@ public class ReservaServiceImpl implements ReservaService {
     @Override
     public long contarPorEstado(EstadoReserva estado) {
         return repo.countByEstado(estado);
+    }
+
+    @Override
+    public List<Reserva> buscarPorCliente(Cliente cliente) {
+        return repo.findByCliente(cliente);
     }
 }

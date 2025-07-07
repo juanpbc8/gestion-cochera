@@ -2,6 +2,7 @@ package pe.edu.utp.gestion_cochera.service;
 
 import pe.edu.utp.gestion_cochera.enums.EstadoPago;
 import pe.edu.utp.gestion_cochera.enums.EstadoReserva;
+import pe.edu.utp.gestion_cochera.model.Cliente;
 import pe.edu.utp.gestion_cochera.model.Reserva;
 
 import java.util.List;
@@ -24,5 +25,7 @@ public interface ReservaService {
     List<Reserva> buscarPorEstado(EstadoReserva estado);
 
     long contarPorEstado(EstadoReserva estado);
+
+    List<Reserva> buscarPorCliente(Cliente cliente);
 
 }
