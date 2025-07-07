@@ -29,4 +29,6 @@ public class Pago {
 
     @Enumerated(EnumType.STRING)
     private EstadoPago estado;
+    
+    private String codigo;
 }

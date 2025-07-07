@@ -7,6 +7,7 @@ import pe.edu.utp.gestion_cochera.enums.MetodoPago;
 import pe.edu.utp.gestion_cochera.model.Pago;
 import pe.edu.utp.gestion_cochera.repository.PagoRepository;
 import pe.edu.utp.gestion_cochera.service.PagoService;
+import pe.edu.utp.gestion_cochera.service.patron.singleton.GeneradorCodigoPago;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +23,10 @@ public class PagoServiceImpl implements PagoService {
     @Transactional
     @Override
     public Pago guardar(Pago pago) {
-        return repo.save(pago);
+        Pago pagoGuardado = repo.save(pago);
+        String codigo = GeneradorCodigoPago.getInstance().generarCodigoDePago(pagoGuardado.getId());
+        pagoGuardado.setCodigo(codigo);
+        return repo.save(pagoGuardado);
     }
 
     @Transactional(readOnly = true)
@@ -45,7 +49,7 @@ public class PagoServiceImpl implements PagoService {
 
         return repo.save(pagoExistente);
     }
-    
+
     @Transactional
     @Override
     public void eliminarPorId(Long id) {
