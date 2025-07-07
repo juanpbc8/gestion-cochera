@@ -8,7 +8,12 @@ import pe.edu.utp.gestion_cochera.model.Pago;
 import pe.edu.utp.gestion_cochera.repository.PagoRepository;
 import pe.edu.utp.gestion_cochera.service.PagoService;
 import pe.edu.utp.gestion_cochera.service.patron.singleton.GeneradorCodigoPago;
+import pe.edu.utp.gestion_cochera.service.patron.strategy.CalculadorDescuento;
+import pe.edu.utp.gestion_cochera.service.patron.strategy.DescuentoEfectivo;
+import pe.edu.utp.gestion_cochera.service.patron.strategy.DescuentoTarjeta;
+import pe.edu.utp.gestion_cochera.service.patron.strategy.DescuentoYape;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +28,35 @@ public class PagoServiceImpl implements PagoService {
     @Transactional
     @Override
     public Pago guardar(Pago pago) {
+        // Usando Strategy para el descuento segun el metodo de pago
+        CalculadorDescuento calculador = new CalculadorDescuento();
+
+        switch (pago.getMetodo()) {
+            case EFECTIVO -> {
+                calculador.setEstrategia(new DescuentoEfectivo());
+                System.out.println("Estrategia aplicada: DescuentoEfectivo (10%)");
+            }
+            case TARJETA -> {
+                calculador.setEstrategia(new DescuentoTarjeta());
+                System.out.println("Estrategia aplicada: DescuentoTarjeta (5%)");
+            }
+            case YAPE -> {
+                calculador.setEstrategia(new DescuentoYape());
+                System.out.println("Estrategia aplicada: DescuentoYape (0%)");
+            }
+            default -> {
+                throw new IllegalArgumentException("Método de pago no reconocido");
+            }
+        }
+
+        BigDecimal montoConDescuento = calculador.calcular(pago.getMonto());
+        pago.setMonto(montoConDescuento);
+
         Pago pagoGuardado = repo.save(pago);
+        
+        // Generando el codigo con Singleton segun el Id
         String codigo = GeneradorCodigoPago.getInstance().generarCodigoDePago(pagoGuardado.getId());
+
         pagoGuardado.setCodigo(codigo);
         return repo.save(pagoGuardado);
     }
