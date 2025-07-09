@@ -14,7 +14,9 @@ public class GeneradorCodigoPago {
     }
 
     public String generarCodigoDePago(Long idPago) {
-        String fecha = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String fecha = LocalDate.now()
+                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                .replace("/", "");
         return "PAGO-" + String.format("%06d", idPago) + "-" + fecha;
     }
 }
