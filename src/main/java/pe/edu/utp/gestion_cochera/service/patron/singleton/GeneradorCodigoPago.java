@@ -10,7 +10,10 @@ public class GeneradorCodigoPago {
     }
 
     public static GeneradorCodigoPago getInstance() {
-        return instancia == null ? new GeneradorCodigoPago() : instancia;
+        if (instancia == null) {
+            instancia = new GeneradorCodigoPago();
+        }
+        return instancia;
     }
 
     public String generarCodigoDePago(Long idPago) {
