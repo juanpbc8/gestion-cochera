@@ -1,10 +1,19 @@
-package pe.edu.utp.gestion_cochera;
+package pe.edu.utp.gestion_cochera.patron;
 
 import org.junit.jupiter.api.Test;
 import pe.edu.utp.gestion_cochera.service.patron.singleton.GeneradorCodigoPago;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Pruebas unitarias para verificar el correcto funcionamiento del patrón Singleton
+ * aplicado en la clase {@link GeneradorCodigoPago}.
+ * Se valida que la instancia sea única en todo el sistema y que el formato del código
+ * generado cumpla con el patrón esperado.
+ *
+ * @author Juan
+ * @version 1.0
+ */
 public class SingletonTest {
     @Test
     void testInstanciaSingleton() {
