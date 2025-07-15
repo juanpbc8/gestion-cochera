@@ -7,7 +7,6 @@ import pe.edu.utp.gestion_cochera.enums.MetodoPago;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * Entidad JPA que representa un pago en el sistema.

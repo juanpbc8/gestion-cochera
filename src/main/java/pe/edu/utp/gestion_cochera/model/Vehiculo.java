@@ -5,6 +5,13 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * Entidad JPA que representa un vehículo en el sistema.
+ * Contiene información detallada de un cliente
+ *
+ * @author Joel
+ * @version 1.0
+ */
 @Entity
 @Data
 public class Vehiculo {
@@ -13,9 +20,16 @@ public class Vehiculo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String placa;
+
+    @Column(nullable = false)
     private String marca;
+
+    @Column(nullable = false)
     private String modelo;
+
+    @Column(nullable = false)
     private String color;
 
     @ManyToOne
