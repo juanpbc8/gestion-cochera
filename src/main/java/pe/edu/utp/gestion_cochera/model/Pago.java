@@ -46,3 +46,4 @@ public class Pago {
 
     @Column(nullable = false)
     private String codigo;
+}
