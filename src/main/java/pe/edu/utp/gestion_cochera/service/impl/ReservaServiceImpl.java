@@ -2,13 +2,17 @@ package pe.edu.utp.gestion_cochera.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pe.edu.utp.gestion_cochera.dto.ReservaDTO;
 import pe.edu.utp.gestion_cochera.enums.EstadoReserva;
 import pe.edu.utp.gestion_cochera.model.Cliente;
+import pe.edu.utp.gestion_cochera.model.Cochera;
 import pe.edu.utp.gestion_cochera.model.Reserva;
+import pe.edu.utp.gestion_cochera.model.Vehiculo;
 import pe.edu.utp.gestion_cochera.repository.ReservaRepository;
 import pe.edu.utp.gestion_cochera.service.ReservaService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -21,8 +25,8 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Transactional
     @Override
-    public Reserva guardar(Reserva reserva) {
-        return repo.save(reserva);
+    public Reserva guardar(ReservaDTO dto) {
+        return repo.save(toEntity(dto));
     }
 
     @Transactional(readOnly = true)
@@ -33,18 +37,10 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Transactional
     @Override
-    public Reserva actualizar(Long id, Reserva reservaActualizada) {
-        Reserva reservaExistente = repo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("La reserva con ID " + id + " no existe."));
-
-        reservaExistente.setFechaReserva(reservaActualizada.getFechaReserva());
-        reservaExistente.setHoraInicio(reservaActualizada.getHoraInicio());
-        reservaExistente.setHoraFin(reservaActualizada.getHoraFin());
-        reservaExistente.setEstado(reservaActualizada.getEstado());
-        reservaExistente.setCliente(reservaActualizada.getCliente());
-        reservaExistente.setVehiculo(reservaActualizada.getVehiculo());
-        reservaExistente.setCochera(reservaActualizada.getCochera());
-        return repo.save(reservaExistente);
+    public Reserva actualizar(Long id, ReservaDTO dto) {
+        Reserva r = repo.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Reserva no encontrada con ID: " + id));
+        return repo.save(toEntity(r, dto));
     }
 
     @Transactional
@@ -74,8 +70,45 @@ public class ReservaServiceImpl implements ReservaService {
         return repo.countByEstado(estado);
     }
 
-    @Override
-    public List<Reserva> buscarPorCliente(Cliente cliente) {
-        return repo.findByCliente(cliente);
+    private Reserva toEntity(ReservaDTO dto) {
+        Reserva r = new Reserva();
+
+        Cliente cliente = new Cliente();
+        cliente.setId(dto.clienteId());
+
+        Vehiculo vehiculo = new Vehiculo();
+        vehiculo.setId(dto.vehiculoId());
+
+        Cochera cochera = new Cochera();
+        cochera.setId(dto.cocheraId());
+
+        r.setCliente(cliente);
+        r.setVehiculo(vehiculo);
+        r.setCochera(cochera);
+        r.setFechaReserva(dto.fechaReserva());
+        r.setHoraInicio(dto.horaInicio());
+        r.setHoraFin(dto.horaFin());
+        r.setEstado(dto.estado());
+        return r;
+    }
+
+    private Reserva toEntity(Reserva r, ReservaDTO dto) {
+        Cliente cliente = new Cliente();
+        cliente.setId(dto.clienteId());
+
+        Vehiculo vehiculo = new Vehiculo();
+        vehiculo.setId(dto.vehiculoId());
+
+        Cochera cochera = new Cochera();
+        cochera.setId(dto.cocheraId());
+
+        r.setCliente(cliente);
+        r.setVehiculo(vehiculo);
+        r.setCochera(cochera);
+        r.setFechaReserva(dto.fechaReserva());
+        r.setHoraInicio(dto.horaInicio());
+        r.setHoraFin(dto.horaFin());
+        r.setEstado(dto.estado());
+        return r;
     }
 }

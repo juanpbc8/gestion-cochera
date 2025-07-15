@@ -6,8 +6,18 @@ import pe.edu.utp.gestion_cochera.enums.EstadoPago;
 import pe.edu.utp.gestion_cochera.enums.MetodoPago;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * Entidad JPA que representa un pago en el sistema.
+ * Contiene información detallada sobre el monto, método de pago, fecha de transacción,
+ * estado actual del pago y un código único generado para su identificación.
+ * Cada pago está relacionado con una {@link Reserva}.
+ *
+ * @author Juan
+ * @version 1.0
+ */
 @Entity
 @Data
 public class Pago {
@@ -20,15 +30,19 @@ public class Pago {
     @JoinColumn(name = "reserva_id")
     private Reserva reserva;
 
+    @Column(nullable = false)
     private BigDecimal monto;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private MetodoPago metodo;
 
-    private LocalDateTime fechaPago;
+    @Column(nullable = false)
+    private LocalDate fechaPago;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private EstadoPago estado;
-    
+
+    @Column(nullable = false)
     private String codigo;
-}
