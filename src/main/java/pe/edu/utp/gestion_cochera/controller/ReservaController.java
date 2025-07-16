@@ -1,11 +1,10 @@
 package pe.edu.utp.gestion_cochera.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import pe.edu.utp.gestion_cochera.dto.ReservaDTO;
 import pe.edu.utp.gestion_cochera.enums.EstadoReserva;
 import pe.edu.utp.gestion_cochera.model.Reserva;
@@ -15,8 +14,20 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+/**
+ * Controlador REST para la gestión de reservas.
+ * Expone endpoints para registrar, actualizar, eliminar, buscar y listar reservas
+ * utilizando DTO. Además, permite filtrar y contar reservas por estado.
+ * <p>
+ * Este controlador actúa como intermediario entre el cliente y la capa de servicio,
+ * facilitando la conversión entre entidades y DTO.
+ *
+ * @author Juan
+ * @version 1.0
+ */
 @RestController
-@RequestMapping("api/reservas")
+@RequestMapping("/api/reservas")
+@Tag(name = "Reservas", description = "Operaciones relacionadas con la gestión de reservas")
 public class ReservaController {
     private final ReservaService service;
 
@@ -37,7 +48,8 @@ public class ReservaController {
     @PostMapping
     public ResponseEntity<ReservaDTO> registrar(@RequestBody ReservaDTO dto) {
         Reserva reservaSave = service.guardar(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(toDTO(reservaSave));
+        ReservaDTO dtoResponse = toDTO(reservaSave);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dtoResponse);
     }
 
     @Operation(summary = "Buscar reserva por ID")
@@ -86,6 +98,13 @@ public class ReservaController {
         return ResponseEntity.ok(service.contarPorEstado(estado));
     }
 
+    /**
+     * Convierte una entidad {@link Reserva} en un {@link ReservaDTO}
+     * para ser enviada como respuesta al cliente.
+     *
+     * @param r La entidad Reserva original.
+     * @return El objeto DTO equivalente.
+     */
     private ReservaDTO toDTO(Reserva r) {
         return new ReservaDTO(
                 r.getId(),
