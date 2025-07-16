@@ -11,7 +11,7 @@ Este proyecto Spring Boot implementa una API REST para administrar un sistema de
 
 - Java 21
 - Spring Boot 3.5.3
-- H2 Database (en memoria)
+- H2 Database (en memoria), PostgreSQL Driver
 - Spring Web, Spring Data JPA, Lombok
 - Swagger (Springdoc OpenAPI)
 
