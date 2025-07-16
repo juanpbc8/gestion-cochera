@@ -2,13 +2,20 @@ package pe.edu.utp.gestion_cochera.service.impl;
 
 import org.springframework.stereotype.Service;
 import pe.edu.utp.gestion_cochera.model.Cliente;
-import pe.edu.utp.gestion_cochera.model.Pago;
 import pe.edu.utp.gestion_cochera.repository.ClienteRepository;
 import pe.edu.utp.gestion_cochera.service.ClienteService;
 
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementación de la interfaz ClienteService.
+ * Utiliza ClienteRepository para interactuar con la base de datos.
+ * Aplica la lógica de negocio relacionada con clientes.
+ *
+ * @author Joel
+ * @version 1.0
+ */
 @Service
 public class ClienteServiceImpl implements ClienteService {
     private final ClienteRepository repo;

@@ -4,10 +4,19 @@ import org.springframework.stereotype.Service;
 import pe.edu.utp.gestion_cochera.model.TipoVehiculo;
 import pe.edu.utp.gestion_cochera.repository.TipoVehiculoRepository;
 import pe.edu.utp.gestion_cochera.service.TipoVehiculoService;
+import pe.edu.utp.gestion_cochera.service.patron.decorator.TipoVehiculoComponent;
+import pe.edu.utp.gestion_cochera.service.patron.decorator.TipoVehiculoConDescripcion;
 
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementación de la interfaz TipoVehiculoService.
+ * Maneja la lógica de negocio para tipos de vehículo, usando el repositorio correspondiente.
+ *
+ * @author Stephano
+ * @version 1.0
+ */
 @Service
 public class TipoVehiculoServiceImpl implements TipoVehiculoService {
 
@@ -44,5 +53,16 @@ public class TipoVehiculoServiceImpl implements TipoVehiculoService {
     @Override
     public void delete(Long id) {
         repo.deleteById(id);
+    }
+    
+    @Override
+    public String obtenerDescripcionExtendida(Long id) {
+        Optional<TipoVehiculo> tipoOpt = repo.findById(id);
+        if (tipoOpt.isPresent()) {
+            TipoVehiculo tipo = tipoOpt.get();
+            TipoVehiculoComponent decorado = new TipoVehiculoConDescripcion(tipo);
+            return decorado.obtenerDescripcion();
+        }
+        return "Tipo de vehículo no encontrado.";
     }
 }

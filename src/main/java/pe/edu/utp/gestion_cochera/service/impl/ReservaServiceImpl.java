@@ -15,6 +15,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+/**
+ * Implementación del servicio {@link ReservaService} que gestiona la lógica de negocio
+ * relacionada a las reservas de cocheras. Utiliza un repositorio para acceder a los datos
+ * y métodos auxiliares internos para convertir entre DTOs y entidades.
+ *
+ * @author Juan
+ * @version 1.0
+ */
 @Service
 public class ReservaServiceImpl implements ReservaService {
     private final ReservaRepository repo;
@@ -70,6 +78,13 @@ public class ReservaServiceImpl implements ReservaService {
         return repo.countByEstado(estado);
     }
 
+    /**
+     * Convierte un objeto {@link ReservaDTO} a una entidad {@link Reserva} lista para ser persistida.
+     * Este método es utilizado durante el registro de nuevas reservas.
+     *
+     * @param dto El DTO con los datos de la reserva.
+     * @return La entidad Reserva correspondiente.
+     */
     private Reserva toEntity(ReservaDTO dto) {
         Reserva r = new Reserva();
 
@@ -92,6 +107,14 @@ public class ReservaServiceImpl implements ReservaService {
         return r;
     }
 
+    /**
+     * Actualiza los datos de una entidad {@link Reserva} existente a partir de un {@link ReservaDTO}.
+     * Este método conserva la instancia original pero sobrescribe sus atributos.
+     *
+     * @param r   La entidad Reserva que se desea actualizar.
+     * @param dto El DTO con los nuevos datos.
+     * @return La entidad Reserva con los valores actualizados.
+     */
     private Reserva toEntity(Reserva r, ReservaDTO dto) {
         Cliente cliente = new Cliente();
         cliente.setId(dto.clienteId());

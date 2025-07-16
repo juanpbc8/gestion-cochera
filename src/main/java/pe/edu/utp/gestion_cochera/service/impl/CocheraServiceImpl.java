@@ -8,6 +8,14 @@ import pe.edu.utp.gestion_cochera.service.CocheraService;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementación de la interfaz CocheraService.
+ * Utiliza CocheraRepository para interactuar con la base de datos.
+ * Aplica la lógica de negocio relacionada a cocheras.
+ *
+ * @author Stephano
+ * @version 1.0
+ */
 @Service
 public class CocheraServiceImpl implements CocheraService {
 
@@ -26,7 +34,7 @@ public class CocheraServiceImpl implements CocheraService {
     public Optional<Cochera> findById(Long id) {
         return cocheraRepository.findById(id);
     }
-
+    
     @Override
     public Cochera save(Cochera cochera) {
         return cocheraRepository.save(cochera);
